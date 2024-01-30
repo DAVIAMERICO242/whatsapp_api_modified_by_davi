@@ -25,6 +25,8 @@ x-api-key: comunidadezdg.com.br
 
 edições podem ser feitas em whatsapp api robusta\whatsapp-api\src\config.js
 
+ou na past .env
+
 
 
 ---------------------------------Como instalar na vps
