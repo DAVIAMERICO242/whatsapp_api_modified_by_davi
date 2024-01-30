@@ -1,5 +1,25 @@
 ------------------------------------ para usar no servidor ----------------------------------------------- 
 
+
+
+endpoint: POST http://skyler.com.br:3000/client/sendMessage/Skylercomercio97
+
+content:
+
+{
+  "chatId": "551598566622@c.us",
+  "contentType": "string",
+  "content": "fdgfdgfdgde ZDG!"
+}
+
+header:
+
+Content-Type: application/json
+x-api-key: comunidadezdg.com.br
+
+
+
+
 ####abrir porta 3000 no firewall do servidor
 
 ssh root@85.31.231.200
