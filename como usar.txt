@@ -23,3 +23,15 @@ comunidadezdg.com.br
 ----------documentação------------------
 
 ip-server:3000/api-docs (sem ssl)
+
+
+ssl:
+
+const https = require('https');
+
+const httpsOptions = {
+        cert: fs.readFileSync("/etc/letsencrypt/live/<domain>/fullchain.pem"),
+        key: fs.readFileSync("/etc/letsencrypt/live/<domain>/privkey.pem")
+}
+
+https.createServer(httpsOptions, app).listen(port);
