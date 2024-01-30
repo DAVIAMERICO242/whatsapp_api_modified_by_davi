@@ -21,6 +21,12 @@ header:
 Content-Type: application/json
 x-api-key: comunidadezdg.com.br
 
+---------------------------editar
+
+edições podem ser feitas em whatsapp api robusta\whatsapp-api\src\config.js
+
+
+
 ---------------------------------Como instalar na vps
 
 
