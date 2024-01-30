@@ -1,5 +1,18 @@
 ------------------------------------ Uso após instalado ----------------------------------------------- 
 
+------------------------Iniciar node caso não iniciado:
+
+ssh root@85.31.231.200
+cd /home
+cd whatsapp-api
+sudo npm install -g pm2
+pm2 start server.js ##rodar de maneira infinita e assincrona
+pm2 stop server.js ##para parar de rodar
+
+
+
+----------------------------- Uso da API
+
 1 - a seção Skylercomercio97 deve estar iniciada em skyler.com.br:3000/api-docs
 
 2 - após isso conectar qrcode
