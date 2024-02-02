@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Document</title>
+</head>
+
+<script>
+    $(document).ready(function(){
+        $('.my_form').off('submit').on('submit',function(e){
+            e.preventDefault();
+            console.log('clicado')
+            $('#not_auth').remove();
+            $.ajax({
+                url: '/autenticar',
+                method: 'POST',
+                data:{
+                    login: $('#login').val(),
+                    senha: $('#senha').val()
+                },
+                success: ()=>{
+                    $('.senha').after('<div id="auth">Autorizado</div>')
+                    window.location.reload();}
+               ,error: ()=>{
+                    $('.senha').after('<div id="not_auth">Não autorizado</div>')
+                }
+            })
+    })
+
+    })
+
+    
+</script>
+
+<body>
+    <div class="flex-group-dad">
+        <form action="#" class="my_form">
+            <h1 id="login_title">Login</h1>
+            <div class="login">
+                <label for="login" class="login_label">Login</label>
+                <input type="text" id="login" name="login" class="login_input" placeholder="E-mail/CPF"> 
+            </div>
+            <div class="senha">
+                <label for="senha" class="login_label">Senha</label>
+                <input type="text" id="senha" name="senha" class="login_input" placeholder="Senha"> 
+            </div>
+
+            <div id="go_login_div">
+                <button id="go_login" type="submit">Logar!</button>
+            </div>
+
+        </form>
+    </div>
+
+
+    </div>
+
+
+    
+</body>
+</html>

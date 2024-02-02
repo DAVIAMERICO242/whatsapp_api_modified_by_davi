@@ -12,6 +12,7 @@ const chatController = require('./controllers/chatController')
 const groupChatController = require('./controllers/groupChatController')
 const messageController = require('./controllers/messageController')
 const contactController = require('./controllers/contactController')
+const {authMiddleware } = require('./login system/routes')
 
 /**
  * ================
@@ -181,7 +182,7 @@ contactRouter.post('/getProfilePicUrl/:sessionId', [middleware.sessionNameValida
  */
 if (enableSwaggerEndpoint) {
   routes.use('/api-docs', swaggerUi.serve)
-  routes.get('/api-docs', swaggerUi.setup(swaggerDocument) /* #swagger.ignore = true */)
+  routes.get('/api-docs', authMiddleware, swaggerUi.setup(swaggerDocument) /* #swagger.ignore = true */)
 }
 
 module.exports = { routes }
