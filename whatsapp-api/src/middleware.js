@@ -3,6 +3,45 @@ const { sendErrorResponse } = require('./utils')
 const { validateSession } = require('./sessions')
 const rateLimiting = require('express-rate-limit')
 
+
+const authMiddleware = async (req, res, next) => {//autorização login
+  if (req.session.name) {
+      // Usuário autenticado, permitir que a solicitação prossiga
+      console.log('ANYYY')
+      next();
+  } else {
+      // Usuário não autenticado, redirecionar para a página de login
+      console.log('ANYYY')
+      res.send('Não Autorizado');
+  }
+};
+
+const API_authMiddleware = async (req, res, next) => {//futuramente sera apikey
+  database = null;
+  requested_session = req.params.id;
+  const api_key = req.headers['x-api-key'] || req.query['x-api-key'];
+  if(true){//verificar se a api-key esta cadastrada no banco de apis-key
+      if(true){//verificar se a api-key referencia a uma seção ja existente em outra api-key diferente dessa
+        //não autenticar
+      }else{
+          //autenticar
+      }
+  }else{
+      //não autenticar
+  }
+  allowed_tokens = ["Oi"];
+  if (req.query.token && allowed_tokens.includes(req.query.token)) {
+      console.log(req.query.token);
+      console.log('aaaa')
+      //logica para verificar se o token corresponde a seção do user
+      next();
+  } else {
+      // Usuário não autenticado, redirecionar para a página de login
+      res.status(404).send('Não Autorizado');
+  }
+};
+
+
 const apikey = async (req, res, next) => {
   /*
     #swagger.security = [{
@@ -175,6 +214,8 @@ const groupChatSwagger = async (req, res, next) => {
 }
 
 module.exports = {
+  authMiddleware,
+  API_authMiddleware,
   sessionValidation,
   apikey,
   sessionNameValidation,

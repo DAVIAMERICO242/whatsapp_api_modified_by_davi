@@ -2,16 +2,6 @@ const express = require('express');
 const auth_routes = express.Router();
 
 
-const authMiddleware = (req, res, next) => {
-    if (req.session.name) {
-        // Usuário autenticado, permitir que a solicitação prossiga
-        next();
-    } else {
-        // Usuário não autenticado, redirecionar para a página de login
-        res.send('Não Autorizado');
-    }
-};
-
 auth_routes.get('/',(req,res)=>{
     if(req.session.name){
         console.log('encontrado')
@@ -55,6 +45,5 @@ auth_routes.get('/logout',(req,res)=>{
 })
 
 module.exports = {
-    auth_routes,
-    authMiddleware
+    auth_routes
 }
