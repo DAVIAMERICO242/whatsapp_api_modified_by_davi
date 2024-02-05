@@ -26,11 +26,12 @@ auth_routes.get('/cadastro',(req,res)=>{//sign up
 })
 
 auth_routes.post('/autenticar',(req,res)=>{//if auth is ok
-    console.log('postado')
-    if(req.body.senha=='896321574' || req.query.senha=='896321574'){
+    var users_and_pass = {'usuario1':'123456','usuario2':'54321','usuario3':'123456','usuario4':'123'}
+    console.log(users_and_pass[req.body.login])
+    if(users_and_pass[req.body.login] == req.body.senha){
         console.log('auth')
         res.status(200);
-        req.session.name = 'Davi américo'
+        req.session.name = 'Any Authorized User'
         res.redirect('/');
     }
     else{
