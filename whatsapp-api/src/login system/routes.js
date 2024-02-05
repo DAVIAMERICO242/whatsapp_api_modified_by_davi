@@ -24,7 +24,7 @@ auth_routes.get('/admin',(req,res)=>{
     if(req.session.name!=='admin'){
         res.status(404).send('Não autorizado')
     }else{
-        res.send('admin panel')
+        res.render('./admin/admin')
     }
 })
 
