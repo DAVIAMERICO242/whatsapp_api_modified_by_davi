@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsAPI -Admin</title>
+</head>
+<body>
+    <div class="main_content_div">
+        <div class="cadastrar_usuario">
+            <h2>Cadastrar usuário</h2>
+            <form type="POST">
+                <label for="user_name">Nome do usuário</label>
+                <input type="text" name="user_name">
+                <label for="user_pass">Senha</label>
+                <input type="text" name="user_pass">
+            </form>
+        </div>
+        <div class="editar_usuario">
+            <h2>Editar usuário</h2>
+            <form type="POST">
+                <select name="action_selector" id="select_action">
+                    <option value="username">Username</option>
+                    <option value="senha">senha</option>
+                </select>
+                <label for="new_value">Novo valor</label>
+                <input type="text" name="new_value">
+            </form>
+        </div>
+        <div class="cadastrar_token">
+            <h2>Cadastrar token</h2>
+            <form type="POST">
+                <label for="token">Cadastre o token</label>
+                <input type="text" name="token">
+            </form>
+        </div>
+        <div class="deletar_token">
+            <h2>Deletar token</h2>
+            <form type="POST">
+                <label for="token">Deletar token</label>
+                <input type="text" name="token">
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
