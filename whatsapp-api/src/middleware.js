@@ -10,9 +10,7 @@ const authMiddleware = async (req, res, next) => {//autorização login
       console.log('ANYYY')
       next();
   } else {
-      // Usuário não autenticado, redirecionar para a página de login
-      console.log('ANYYY')
-      res.send('Não Autorizado');
+      res.status(404).send('Não Autorizado');
   }
 };
 
