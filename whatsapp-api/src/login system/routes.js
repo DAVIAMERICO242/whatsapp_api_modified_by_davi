@@ -1,6 +1,7 @@
 const express = require('express');
 const auth_routes = express.Router();
-
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('./databases/whatsapp_robusto.sql')
 
 auth_routes.get('/',(req,res)=>{
     console.log(req.session.name)
@@ -24,7 +25,31 @@ auth_routes.get('/admin',(req,res)=>{
     if(req.session.name!=='admin'){
         res.status(404).send('Não autorizado')
     }else{
-        res.render('./admin/admin')
+        const users = []
+        const tokens = []
+
+        const selectAllUsers = `SELECT * FROM users;`;
+        db.all(selectAllUsers, [], (err, rows) => {
+            if (err) {
+                throw err;
+                return
+            }
+
+            // Log the results
+            rows.forEach((row) => {users.push(row.user);});
+            ////////Para não usar promise
+            const selectAllTokens = `SELECT * FROM allowed_tokens;`;
+            db.all(selectAllTokens, [], (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+    
+                // Log the results
+                rows.forEach((row) => {tokens.push(row.token);});
+                res.render('./admin/admin')
+            });
+        });
+
     }
 })
 
@@ -43,7 +68,7 @@ auth_routes.get('/cadastro',(req,res)=>{//sign up
 })
 
 auth_routes.post('/autenticar',(req,res)=>{//if auth is ok
-    var users_and_pass = {'admin':'896321574','usuario1':'123456','usuario2':'54321','usuario3':'123456','usuario4':'123'}
+    var users_and_pass = {'admin':'896321574'}
     console.log('LOGIN')
     console.log(req.body.login)
     console.log('SENHA INSERIDA')

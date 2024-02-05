@@ -2,11 +2,13 @@ require('./routes')
 const { restoreSessions } = require('./sessions')
 const { routes } = require('./routes')
 const {auth_routes} = require('./login system/routes')
+const {admin_routes} = require('./admin/routes')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const { maxAttachmentSize } = require('./config')
 const session = require('express-session');
+const {inputClear} = require('./middleware');
 
 // Initialize Express app
 app.disable('x-powered-by')
@@ -23,6 +25,7 @@ app.use(session({
 app.use(express.static('./src/login system/src/views/public'));
 app.use('/', auth_routes)
 app.use('/', routes)
+app.use('/admin',admin_routes)
 
 restoreSessions()
 

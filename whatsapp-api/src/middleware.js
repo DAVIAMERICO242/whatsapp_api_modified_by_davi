@@ -2,6 +2,8 @@ const { globalApiKey, rateLimitMax, rateLimitWindowMs } = require('./config')
 const { sendErrorResponse } = require('./utils')
 const { validateSession } = require('./sessions')
 const rateLimiting = require('express-rate-limit')
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database('./databases/whatsapp_robusto.sql')
 
 
 const authMiddleware = async (req, res, next) => {//autorização login
@@ -15,28 +17,7 @@ const authMiddleware = async (req, res, next) => {//autorização login
 };
 
 const API_authMiddleware = async (req, res, next) => {//futuramente sera apikey
-  database = null;
-  requested_session = req.params.id;
-  const api_key = req.headers['x-api-key'] || req.query['x-api-key'];
-  if(true){//verificar se a api-key esta cadastrada no banco de apis-key
-      if(true){//verificar se a api-key referencia a uma seção ja existente em outra api-key diferente dessa
-        //não autenticar
-      }else{
-          //autenticar
-      }
-  }else{
-      //não autenticar
-  }
-  allowed_tokens = ["Oi"];
-  if (req.query.token && allowed_tokens.includes(req.query.token)) {
-      console.log(req.query.token);
-      console.log('aaaa')
-      //logica para verificar se o token corresponde a seção do user
-      next();
-  } else {
-      // Usuário não autenticado, redirecionar para a página de login
-      res.status(404).send('Não Autorizado');
-  }
+  next();
 };
 
 
@@ -56,12 +37,23 @@ const apikey = async (req, res, next) => {
       }
   */
   if (globalApiKey) {
-    const apiKey = req.headers['x-api-key']
-    if (!apiKey || apiKey !== globalApiKey) {
-      return sendErrorResponse(res, 403, 'Invalid API key')
-    }
-  }
-  next()
+    const allowed_tokens = [];
+    const selectAllTokens = `SELECT * FROM allowed_tokens;`;
+    db.all(selectAllTokens, [], (err, rows) => {
+      if (err) {
+          console.log('AA')
+          res.status(500);
+          console.log('BB')
+      }
+      // Log the results
+      rows.forEach((row) => {allowed_tokens.push(row.token);});
+      const apiKey = req.headers['x-api-key'].trim().replace(/\s+/g, ' ').toUpperCase();
+      if (!apiKey || !allowed_tokens.includes(apiKey)) {
+        return sendErrorResponse(res, 403, 'x-api-key inválida');
+      }
+      next()
+    });
+}
 }
 
 const sessionNameValidation = async (req, res, next) => {

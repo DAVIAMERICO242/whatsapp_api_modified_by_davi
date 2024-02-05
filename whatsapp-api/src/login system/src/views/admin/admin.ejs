@@ -3,42 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsAPI -Admin</title>
+    <title>WhatsAPI - Admin</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: '/admin/users_and_tokens',
+                type: 'GET',
+                success: function(data){
+                        console.log(data['user'])
+                        var selectUser = $('#select_user');
+                        for (const username of data['user']) {
+                            var option = $('<option>').val(username).text(username);
+                            selectUser.append(option);
+                        }
+                        var delUser = $('#del_user');
+                        for (const username of data['user']) {
+                            var option = $('<option>').val(username).text(username);
+                            delUser.append(option);
+                        }
+                        var select_token = $('#select_token');
+                        for (const username of data['token']) {
+                            var option = $('<option>').val(username).text(username);
+                            select_token.append(option);
+                        }
+                        $('#cadastro_usuario_form').off('submit').on('submit',(e)=>{
+                        if (data['user'].includes($('#user_name_cadastro').val().trim().replace(/\s+/g, ' ').toUpperCase())){
+                            e.preventDefault();
+                            $('.alert_existing_user').remove()
+                            $('.cadastrar_usuario').append('<div class = "alert_existing_user" style="color:red;">USUÁRIO JÁ EXISTENTE </div>')
+                        }else{
+                            console.log('NAO CONTEM')
+                        }
+                    })
+                },
+                error: function(){
+                    console.log('Erro')
+                }
+            })
+
+        })
+
+
+
+    </script>
     <div class="main_content_div">
         <div class="cadastrar_usuario">
             <h2>Cadastrar usuário</h2>
-            <form type="POST">
+            <form id = "cadastro_usuario_form" method="POST" action="/admin/cadastrar_usuario">
                 <label for="user_name">Nome do usuário</label>
-                <input type="text" name="user_name">
+                <input id = "user_name_cadastro" type="text" name="user_name">
                 <label for="user_pass">Senha</label>
                 <input type="text" name="user_pass">
+                <button type="submit">Confirmar cadastro</button>
             </form>
         </div>
         <div class="editar_usuario">
             <h2>Editar usuário</h2>
-            <form type="POST">
+            <form method="POST" action="/admin/editar_usuario">
+                <label for="select_user">Selecione o usuário</label>
+                <select name="select_user" id="select_user">
+                </select>
+                <label for="action_selector">Selecione a ação</label>
                 <select name="action_selector" id="select_action">
                     <option value="username">Username</option>
                     <option value="senha">senha</option>
                 </select>
                 <label for="new_value">Novo valor</label>
                 <input type="text" name="new_value">
+                <button type="submit">Confirmar edição</button>
             </form>
         </div>
+
+        <div class="deletar_usuario">
+            <h2>Deletar</h2>
+            <form method="POST" action="/admin/del_user">
+                <label for="del_user">Insira o nome do usuário a ser deletado</label>
+                <select name="del_user" id="del_user">
+                </select>
+                <button type="submit">Deletar usuário</button>
+            </form>
+        </div>
+
         <div class="cadastrar_token">
             <h2>Cadastrar token</h2>
-            <form type="POST">
+            <form method="POST" action="/admin/cadastrar_token">
                 <label for="token">Cadastre o token</label>
                 <input type="text" name="token">
+                <button type="submit">Cadastrar token</button>
             </form>
         </div>
         <div class="deletar_token">
             <h2>Deletar token</h2>
-            <form type="POST">
-                <label for="token">Deletar token</label>
-                <input type="text" name="token">
+            <form method="POST" action="/admin/del_token">
+                <label for="select_token">Selecionar token</label>
+                <select name="select_token" id="select_token">
+                </select>
+                <button type="submit">Deletar token</button>
             </form>
         </div>
     </div>
