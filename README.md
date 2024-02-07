@@ -1,7 +1,9 @@
-A API original possui um token de consumo dos endpoints global como uma variável ambiente.
+
 
 Eu modifiquei essa API do whatsapp (documentação em localhost:3000/api-docs (instalado por node)) para que apenas usuários autenticados acessem a documentação
 , além disso apenas usuários com um token cadastrado pelo admin (eu) conseguem consumir os endpoints. Para isso criei middlewares e rotas para o login admin e para o consumo da API.
+
+PS: a API original possui um token de consumo dos endpoints global como uma variável ambiente
 
 USUÁRIO ADMIN
 
