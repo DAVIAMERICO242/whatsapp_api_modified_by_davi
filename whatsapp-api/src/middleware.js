@@ -37,7 +37,7 @@ const apikey = async (req, res, next) => {
       }
   */
   console.log('PELOMENOS ENTROU 0') 
-  if (globalApiKey) {
+  if (globalApiKey && req.headers['x-api-key']) {
     console.log('PELOMENOS ENTROU')
     const selectAllTokens = `SELECT * FROM allowed_tokens;`;
     var allowed_tokens = [];
