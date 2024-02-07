@@ -13,13 +13,13 @@ pm2 stop server.js ##para parar de rodar
 
 ----------------------------- Uso da API
 
-1 - a seção Skylercomercio97 deve estar iniciada em skyler.com.br:3000/api-docs
+1 - a seção session_name deve estar iniciada em host:3000/api-docs
 
 2 - após isso conectar qrcode
 
 3 - requisição:
 
-endpoint: POST http://skyler.com.br:3000/client/sendMessage/Skylercomercio97
+endpoint: POST http://host:3000/client/sendMessage/session_name
 
 content:
 

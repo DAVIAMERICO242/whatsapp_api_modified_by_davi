@@ -19,6 +19,7 @@
     "qr-image": "^3.2.0",
     "qrcode-terminal": "^0.12.0",
     "sequelize": "^6.36.0",
+    "server.js": "^1.0.0",
     "sqlite3": "^5.1.7",
     "swagger-ui-express": "^4.6.3",
     "whatsapp-web.js": "^1.23.0"

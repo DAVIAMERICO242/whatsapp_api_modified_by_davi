@@ -36,24 +36,40 @@ const apikey = async (req, res, next) => {
         }
       }
   */
+  console.log('PELOMENOS ENTROU 0') 
   if (globalApiKey) {
-    const allowed_tokens = [];
+    console.log('PELOMENOS ENTROU')
     const selectAllTokens = `SELECT * FROM allowed_tokens;`;
-    db.all(selectAllTokens, [], (err, rows) => {
-      if (err) {
-          console.log('AA')
-          res.status(500);
-          console.log('BB')
-      }
-      // Log the results
-      rows.forEach((row) => {allowed_tokens.push(row.token);});
-      const apiKey = req.headers['x-api-key'].trim().replace(/\s+/g, ' ').toUpperCase();
-      if (!apiKey || !allowed_tokens.includes(apiKey)) {
-        return sendErrorResponse(res, 403, 'x-api-key inválida');
-      }
-      next()
-    });
-}
+    var allowed_tokens = [];
+    const fetchDataFromDB = async () => {
+      return new Promise((resolve, reject) => {
+        db.all(selectAllTokens, [], (err, rows) => {
+          if (err) {
+            console.log('AA');
+            reject(err);
+          }
+    
+          // Log the results
+          rows.forEach((row) => {
+            allowed_tokens.push(row.token);
+          });
+    
+          resolve();
+        });
+      });
+    };
+    await fetchDataFromDB();
+    const apiKey = req.headers['x-api-key'].trim().replace(/\s+/g, ' ').toUpperCase();
+    if (!apiKey || !(allowed_tokens.includes(apiKey))) {
+      console.log('NAO VALIDADO')
+      console.log(apiKey)
+      res.status(404).send('x-api-key inválida');
+    }else{
+      next();
+    }
+  }else{
+    res.status(404).send('GLOBAL API ERROR');
+  }
 }
 
 const sessionNameValidation = async (req, res, next) => {
@@ -76,8 +92,10 @@ const sessionNameValidation = async (req, res, next) => {
         }
       }
     */
+    console.log('ANTES DO RETURN')
     return sendErrorResponse(res, 422, 'Session should be alphanumerical or -')
   }
+  console.log('DEPOIS DO RETURN')
   next()
 }
 
